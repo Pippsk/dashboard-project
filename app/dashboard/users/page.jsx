@@ -1,11 +1,15 @@
 import Pagination from "@/app/components/dashboard/pagination/pagination";
 import Search from "@/app/components/dashboard/searchComponent/searchComponent";
 import styles from "@/app/components/dashboard/users/users.module.css";
+import { fetchUsers } from "@/app/lib/data";
 import Image from "next/image";
 
 import Link from "next/link";
 
-const UsersPage = () => {
+const UsersPage = async () => {
+  const users = await fetchUsers();
+
+  console.log(users);
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -44,7 +48,7 @@ const UsersPage = () => {
             <td>active</td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/">
+                <Link href="/dashboard/users/test">
                   <button className={`${styles.button} ${styles.view}`}>
                     View
                   </button>

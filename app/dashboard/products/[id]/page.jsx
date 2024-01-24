@@ -1,7 +1,12 @@
 import styles from "@/app/components/dashboard/products/singleProduct/singleProduct.module.css";
+import { updateProduct } from "@/app/lib/actions";
+import { fetchProduct } from "@/app/lib/data";
+
 import Image from "next/image";
 
-const SingleProductPage = () => {
+const SingleProductPage = async ({ params }) => {
+  const { id } = params;
+  const product = await fetchProduct(id);
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -12,26 +17,49 @@ const SingleProductPage = () => {
       </div>
 
       <div className={styles.formContainer}>
-        <form action="" className={styles.form}>
+        <form action={updateProduct} className={styles.form}>
+          <input type="hidden" name="id" value={product.id} />
           <label htmlFor="title">Title</label>
-          <input type="text" id="title" name="title" placeholder="jhon Doe" />
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder={product.title}
+          />
           <label htmlFor="price">Price</label>
           <input
             type="number"
             id="price"
             name="price"
-            placeholder="jhonDoe@yahoo.com"
+            placeholder={product.price}
+            className={styles.numberInput}
           />
           <label htmlFor="stock">Stock</label>
-          <input type="number" id="stock" name="stock" placeholder="23" />
+          <input
+            type="number"
+            id="stock"
+            name="stock"
+            placeholder={product.stock}
+            className={styles.numberInput}
+          />
           <label htmlFor="color">Color</label>
-          <input type="text" id="color" name="color" />
+          <input
+            type="text"
+            id="color"
+            name="color"
+            placeholder={product.color}
+          />
           <label htmlFor="size">Size</label>
-          <textarea name="size" type="text" id="size" rows="1" />
+          <textarea
+            name="size"
+            type="text"
+            id="size"
+            rows="1"
+            placeholder={product.size}
+          />
 
           <label htmlFor="category">Category</label>
           <select name="category" id="category">
-            <option selected>Select category</option>
             <option value="kitchen">Kitchen</option>
             <option value="computers">Computers</option>
           </select>
@@ -40,7 +68,7 @@ const SingleProductPage = () => {
             name="description"
             id="description"
             rows="10"
-            placeholder="Description"
+            placeholder={product.description}
           ></textarea>
 
           <button>Update</button>

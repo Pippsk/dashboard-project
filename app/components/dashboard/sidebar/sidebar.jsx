@@ -1,3 +1,4 @@
+import { auth, signOut } from "@/app/auth";
 import MenuLink from "./menuLink/menuLink";
 import styles from "./sidebar.module.css";
 import Image from "next/image";
@@ -77,19 +78,21 @@ const menuItems = [
     ],
   },
 ];
-const Sidebar = () => {
+const Sidebar = async () => {
+  const { user } = await auth();
+
   return (
     <div className={styles.container}>
       <div className={styles.user}>
         <Image
-          src="/noavatar.png"
+          src={user.img || "/noavatar.png"}
           alt=""
           width="50"
           height="50"
           className={styles.userImage}
         />
         <div className={styles.userDetails}>
-          <span className={styles.userName}>John Doe</span>
+          <span className={styles.userName}>{user.username}</span>
           <span className={styles.userTitle}>Administrator</span>
         </div>
       </div>
@@ -103,10 +106,17 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <button className={styles.logout}>
-        <MdLogout size={20} />
-        Logout
-      </button>
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button className={styles.logout}>
+          <MdLogout size={20} />
+          Logout
+        </button>
+      </form>
     </div>
   );
 };

@@ -41,6 +41,7 @@ const UsersPage = async ({ searchParams }) => {
                     width={40}
                     height={40}
                     className={styles.userImg}
+                    alt="user image"
                   />
                   {user.username}
                 </div>
